@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User account profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "email"]
+    },
+    "Watchlist": {
+      "title": "Watchlist",
+      "description": "User custom watchlist",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "isDefault": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name"]
+    },
+    "WatchlistStock": {
+      "title": "WatchlistStock",
+      "description": "Individual stock added to a watchlist",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "symbol": { "type": "string", "maxLength": 32 },
+        "name": { "type": "string", "maxLength": 128 },
+        "exchange": { "type": "string", "maxLength": 32 },
+        "sector": { "type": "string", "maxLength": 64 },
+        "addedAt": { "type": "string", "format": "date-time" },
+        "userId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "symbol", "name", "userId"]
+    },
+    "UserCheckpoint": {
+      "title": "UserCheckpoint",
+      "description": "Checkpoint of a user's market review for baseline delta comparisons",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "stockId": { "type": "string", "maxLength": 64 },
+        "lastCheckedAt": { "type": "string", "format": "date-time" },
+        "lastSeenPrice": { "type": "number" },
+        "lastSeenVolume": { "type": "number" },
+        "lastSeenAttentionScore": { "type": "number" },
+        "lastSeenClassification": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["id", "userId", "stockId", "lastCheckedAt", "lastSeenPrice"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Root user profile document"
+    },
+    "/watchlists/{watchlistId}": {
+      "schema": { "$ref": "#/entities/Watchlist" },
+      "description": "Watchlists owned by users"
+    },
+    "/watchlists/{watchlistId}/stocks/{stockId}": {
+      "schema": { "$ref": "#/entities/WatchlistStock" },
+      "description": "Stocks belonging to a watchlist"
+    },
+    "/userCheckpoints/{checkpointId}": {
+      "schema": { "$ref": "#/entities/UserCheckpoint" },
+      "description": "State checkpoints for delta comparison"
+    }
+  }
+}

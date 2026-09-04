@@ -1,0 +1,6 @@
+{
+  "name": "PulseWatch",
+  "description": "Smart market watchlist that highlights meaningful changes and explainable attention scores since your last check.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
